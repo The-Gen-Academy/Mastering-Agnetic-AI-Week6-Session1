@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+patients.db
+.ipynb_checkpoints/
+node_modules/*

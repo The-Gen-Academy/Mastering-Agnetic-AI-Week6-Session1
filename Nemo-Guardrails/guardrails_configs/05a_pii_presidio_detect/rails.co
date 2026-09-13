@@ -1,0 +1,17 @@
+# Custom PII-blocking rails built on NeMo's Presidio-backed `detect_sensitive_data`
+# action. The library's built-in `detect sensitive data on input` flow replies with
+# "I don't know the answer to that." — we want an explicit refusal instead.
+
+define subflow block pii on input
+  """Block the user message if it contains PII (per sensitive_data_detection.input)."""
+  $has_pii = execute detect_sensitive_data(source="input", text=$user_message)
+  if $has_pii
+    bot refuse to respond
+    stop
+
+define subflow block pii on output
+  """Block the bot reply if it would leak PII (per sensitive_data_detection.output)."""
+  $has_pii = execute detect_sensitive_data(source="output", text=$bot_message)
+  if $has_pii
+    bot refuse to respond
+    stop
