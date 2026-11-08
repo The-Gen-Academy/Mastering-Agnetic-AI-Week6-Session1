@@ -54,6 +54,16 @@ uv run jupyter notebook nemo_guardrails_deepdive.ipynb
 
 Or select the `.venv` interpreter in VS Code / Cursor and run the notebook cells.
 
+The baseline agent and all six guardrail configs use OpenAI `gpt-6-luna`
+with `reasoning_effort: none` to keep costs low and support the baseline's
+Chat Completions tool calls. As of November 6, 2026, it is the lowest-cost
+non-deprecated OpenAI text model: $0.10 per million input tokens and $0.50
+per million output tokens at standard short-context rates
+([pricing](https://developers.openai.com/api/docs/pricing),
+[model support](https://developers.openai.com/api/docs/models/gpt-6-luna)).
+After updating the model, restart the notebook kernel and rerun the setup cell
+before running the attacks so Python reloads the updated agent.
+
 ## API keys
 
 | Key | Used for | Where to get it |

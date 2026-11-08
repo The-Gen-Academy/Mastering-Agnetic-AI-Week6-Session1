@@ -1,7 +1,9 @@
 models:
   - type: main
     engine: openai
-    model: gpt-3.5-turbo
+    model: gpt-6-luna
+    parameters:
+      reasoning_effort: none
 
 instructions:
   - type: general

@@ -12,7 +12,7 @@ from openai import OpenAI
 from aria.prompts import ARIA_SYSTEM_PROMPT
 from aria.tools import TOOL_MAP, TOOLS
 
-_MODEL = "gpt-3.5-turbo"
+_MODEL = "gpt-6-luna"
 
 
 def aria_unguarded(user_message: str, model: str = _MODEL, verbose: bool = True) -> str:
@@ -32,9 +32,12 @@ def aria_unguarded(user_message: str, model: str = _MODEL, verbose: bool = True)
     # Step 1: LLM decides what to do (may call a tool).
     response = client.chat.completions.create(
         model=model,
+        # GPT-6 Luna supports Chat Completions tool calls with reasoning disabled.
+        reasoning_effort="none",
         temperature=0.3,
         messages=messages,
         tools=TOOLS,
+        parallel_tool_calls=False,  # This demo handles one tool result per turn.
     )
     choice = response.choices[0]
 
@@ -62,6 +65,7 @@ def aria_unguarded(user_message: str, model: str = _MODEL, verbose: bool = True)
 
     final = client.chat.completions.create(
         model=model,
+        reasoning_effort="none",
         temperature=0.3,
         messages=messages,
     )
